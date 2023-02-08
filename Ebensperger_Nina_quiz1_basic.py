@@ -27,6 +27,8 @@ print(len(courses))
 print(courses[82]['time'])
 
 
+
+
 #%%
 # I created a copy of the list 
 mylist = courses.copy()
@@ -43,6 +45,8 @@ print(courses)
 #This shows that we only created a shallow copy of the original list, mylist still contains references to the original child objects stored in courses.
 
 courses[1][0] = 'X'
+
+
 
 #when you modify one of the child objects in courses, this modification will be reflected in mylist as well
 
