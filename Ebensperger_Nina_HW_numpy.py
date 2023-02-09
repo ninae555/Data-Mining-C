@@ -280,7 +280,20 @@ print(myarray)
 # the value is divisible by 7. 
 
 
+
+for i in range(0,len(myarray)):
+    for j in range (0, 11):
+        if myarray[i,j] % 7 == 0:
+            myarray[i,j] = True
+        else:
+            myarray[i,j] = False
+print(myarray)
+
+
+
 # b) Next get the list/array of those values of multiples of 7 in that original array  
+
+
 
 # ######  END of QUESTION 5    ###   END of QUESTION 5   ##########
 
