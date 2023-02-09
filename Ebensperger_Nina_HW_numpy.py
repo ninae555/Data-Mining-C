@@ -328,35 +328,44 @@ print(flatlist)
 # 6.1) create a numpy array from flatlist, call it nparray1. What is the shape of nparray1?
 # remember to print the result
 #
-# write your codes here
+nparray1 = np.array(flatlist)
+print(nparray1)
+print(f"The shape of nparray 1 is: {nparray1.shape}")
 #
 
 #%%
 # 6.2) reshape nparray1 into a 3x8 numpy array, call it nparray2
 # remember to print the result
 #
-# write your codes here
+nparray2 = nparray1.reshape(3, 8)
+print(nparray2)
 #
 
 #%%
 # 6.3) swap columns 0 and 2 of nparray2, and call it nparray3
 # remember to print the result
 #
-# write your codes here
+
+nparray2[:, [2, 0]] = nparray2[:, [0, 2]]
+nparray3 = nparray2
+print(nparray3)
 #
 
 #%%
 # 6.4) swap rows 0 and 1 of nparray3, and call it nparray4
 # remember to print the result
 #
-# write your codes here
+nparray3[[1, 0],:] = nparray3[[0, 1],:]
+nparray4 = nparray3
+print(nparray4)
 #
 
 #%%
 # 6.5) reshape nparray4 into a 2x3x4 numpy array, call it nparray3D
 # remember to print the result
 #
-# write your codes here
+nparray3D = nparray4.reshape(2,3,4)
+print(nparray3D)
 #
 
 #%%
@@ -364,7 +373,15 @@ print(flatlist)
 # the value is a multiple of three. Call this nparray5
 # remember to print the result
 # 
-# write your codes here
+for i in range(0,2):
+    for j in range (0, 3):
+        for f in range(0, 4):
+            if nparray3D[i,j,f] % 3 == 0:
+                nparray3D[i,j,f] = True
+            else:
+                nparray3D[i,j,f] = False
+nparry5 = nparray3D
+print(nparry5)
 #
 
 #%%
@@ -372,7 +389,12 @@ print(flatlist)
 # by 3, and save it as nparray6a. What is the shape of nparray6a?
 # remember to print the result
 #
-# write your codes here
+for i in range(0,2):
+    for j in range (0, 3):
+        for f in range(0, 4):
+            if nparray3D[i,j,f] % 3 == 0:
+                nparray3D[i,j,f] = True
+                
 #
 
 #%%
