@@ -255,9 +255,9 @@ x = np.full((7, 7), 1)
 
 #print(x)
 
-for i in range(0,7):
-    for j in range(1,6):
-        x[i,j]= 0
+for i in range(len(x)):
+    for j in range(1,len(x)-1):
+        x[i,j]= 0 
 
 
 print(x)
