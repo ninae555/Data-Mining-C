@@ -293,6 +293,16 @@ print(myarray)
 
 # b) Next get the list/array of those values of multiples of 7 in that original array  
 
+i=3642
+myarray = np.arange(i,i+6*11).reshape(6,11)
+
+arr = []
+
+for i in range(0, len(myarray)):
+    for j in range (0,11):
+        if myarray[i,j] % 7 == 0:
+            arr = myarray[i,j]
+            print(arr)
 
 
 # ######  END of QUESTION 5    ###   END of QUESTION 5   ##########
