@@ -28,13 +28,24 @@ print("nparray2:", nparray2)
 idlabels = np.indices( (4,3) ) 
 print("idlabels:", idlabels)
 
-i,j = idlabels  # idlabels is a tuple of length 2. We'll call those i and j
+i,j = idlabels # idlabels is a tuple of length 2. We'll call those i and j
 nparray2b = 10*i+j+11
 print("nparray2b:",nparray2b)
 
 # 1.a) Is nparray2 and nparray2b the "same"? Use the logical "==" test and the "is" test. 
 # Write your codes, 
 # and describe what you find.
+
+
+print(nparray2 == nparray2b)
+
+nparray2 is nparray2b
+
+nparray2 is nparray2 
+
+# we see that even though the values are the same, as we can see in the '==' operator (which compares the contects of each variable), and returns 'True'. 
+# Using the 'is' operator returns false. This is becuase the two arrays are two separate objects. They take up different spaces in object memory. The 'is' operator checks their object memory. 
+
 
 # %%
 # ######  Part 1b      Part 1b      Part 1b   ##########
@@ -43,6 +54,25 @@ print("nparray2b:",nparray2b)
 # See the lecture 4 notes for reference.
 # write your codes here
 #
+
+#Object 
+
+
+# The shape of each variable
+print(f" i shape: {i.shape}")
+print(f" j shape: {j.shape}")
+print(f" idlabels shape: {idlabels.shape}")
+
+# The Stride of each variable
+
+print(f"Stride of i: {i.strides}")
+print(f"Stride of j: {j.strides}")
+print(f"Stride of idlabels: {idlabels.strides}")
+
+# Data Type 
+print(f"Data type of i: {i.dtype}")
+print(f"Data type of j: {j.dtype}")
+print(f"Data type of idlabels: {idlabels.dtype}")
 
 # %%
 # ######  Part 1c      Part 1c      Part 1c   ##########
@@ -53,7 +83,29 @@ print("nparray2b:",nparray2b)
 # write your codes here
 # Describe what you find. Is that what you expect?
 #
+print(i[0,0])
+print(idlabels[0,0])
+
+i[0,0] = 8
+print(i)
+print(idlabels)
+
 # Also try to change i[0] = 8. Print out the i and idlabels again.
+i[0] = 8
+print(i[0,0])
+print(idlabels[0,0])
+print(i)
+print(idlabels)
+
+# yes, you can see that by changing at exactly the first position nd the first element in that position (ie [0,0]),
+# it will only change the first element. when you change the values at the first element (ie [0]) it will change the entire first array. 
+# what way surprising is that it will also change the value of idlabels, but it makes sense because
+#  i,j = idlabels; what i didn't consider was that idlabels is a list of lists, so when changing i, i am also changing the original list
+# if i wanted to avoid this, i would make a shallow copy of the orignal list. 
+
+
+
+
 
 
 # %%
@@ -61,23 +113,63 @@ print("nparray2b:",nparray2b)
 # 
 # 1.d) Let us focus on nparray2 now. (It has the same values as nparray2b.) 
 # Make a shallow copy nparray2 as nparray2c
+import copy
+nparray2c = copy.copy(nparray2)
+print(nparray2c)
+
+
 # now change nparray2c 1,1 position to 0. Check nparray2 and nparray2c again. 
+nparray2c[1,1] = 0
+print(nparray2c)
+print(nparray2)
+
 # Print out the two arrays now. Is that what you expect?
 # 
+# Yes, this is expected because as we saw above, the lists are mutable, so by making a shallow copy, 
+# we no longer are changing the original list. 
+
 # Also use the "==" operator and "is" operator to test the 2 arrays. 
 # write your codes here
-#
+
+print(nparray2 == nparray2c)
+
+nparray2 is nparray2c
+
+# as we expect; the value change is different than that of the orignal; and since its a different object, it is also not 
+# going to return 'true'
+
+
 
 #%%
 # ######  Part 1e      Part 1e      Part 1e   ##########
 # Let us try again this time using the intrinsic .copy() function of numpy array objects. 
 nparray2 = np.array(list2) # reset the values. list2 was never changed.
 nparray2c = nparray2.copy() 
+
+
 # now change nparray2c 0,2 position value to -1. Check nparray2 and nparray2c again.
 # Are they true copies?
-# 
+
+nparray2c[0,2] = -1
+print(nparray2c)
+print(nparray2)
+
+
+#This is a true copy since this is a deep copy. If i were to change the orignal(ie nparray2) it would not change the copy as we see below.
+
+#nparray2[0,0] = 2
+#print(nparray2c)
+
+#after running this, go back and rerun the beginning to rest the values, then run the code above it and omit this code to continue
 # write your codes here
 # Again use the "==" operator and "is" operator to test the 2 arrays. 
+print(nparray2c == nparray2)
+
+nparray2c is nparray2
+
+# Here we can see where the value is different and that these are two different objects taking up different spaces
+
+
 #
 # Since numpy can only have an array with all values of the same type, we usually 
 # do not need to worry about deep levels copying. 
@@ -95,8 +187,43 @@ nparray2c = nparray2.copy()
 # between the pairs of arrays/lists: [1e10,1e-8] and [1.00001e10,1e-9]
 # between the pairs of arrays/lists: [1e10,1e-8] and [1.0001e10,1e-9]
 # Try to google what function to use to test numpy arrays within a tolerance.
+a = np.array([1e10,1e-7])
+b = np.array([1.00001e10,1e-8])
 
+result = np.allclose(a, b)
+print(result)
 
+#returns False
+
+tolerance = np.max(np.abs(a - b))
+print(tolerance)
+
+result = np.allclose(a, b, atol = tolerance)
+print(result)
+
+#returns tru because we made the tolerance the lenght of the max absolute vlae between the two
+
+c = np.array([1e10,1e-8])
+d = np.array([1.00001e10,1e-9])
+
+result2 = np.allclose(c, d)
+print(result2)
+
+#Retuns True; they are the same distance
+
+e = np.array([1e10,1e-8])
+f = np.array([1.0001e10,1e-9])
+
+result3 = np.allclose(e, f)
+print(result3)
+
+# Returns false, they're not the same distance
+tolerance2 = np.max(np.abs(e - f))
+print(tolerance2)
+
+result3 = np.allclose(e, f, atol = tolerance2)
+print(result3)
+# they are the same distance. 
 
 # ######  END of QUESTION 2    ###   END of QUESTION 2   ##########
 
