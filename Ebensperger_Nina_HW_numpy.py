@@ -251,12 +251,17 @@ print(reversed_arr)
 # This way, when the array is finalized and printe out, it looks like 
 # a square boundary with ones, and all zeros inside. 
 # ----------------------------------------------------------------
-x = np.indices( (7,7) ) 
+x = np.full((7, 7), 1) 
+
+#print(x)
+
+for i in range(0,7):
+    for j in range(1,6):
+        x[i,j]= 0
+
 
 print(x)
 
-x[1] = 1
-print(x)
 
 # ######  END of QUESTION 4    ###   END of QUESTION 4   ##########
 
