@@ -234,6 +234,11 @@ print(result3)
 x = np.arange(12, 38)
 
 
+reversed_arr = x[::-1]
+print(reversed_arr)
+
+
+
 # ######  END of QUESTION 3    ###   END of QUESTION 3   ##########
 
 
@@ -246,7 +251,12 @@ x = np.arange(12, 38)
 # This way, when the array is finalized and printe out, it looks like 
 # a square boundary with ones, and all zeros inside. 
 # ----------------------------------------------------------------
+x = np.indices( (7,7) ) 
 
+print(x)
+
+x[1] = 1
+print(x)
 
 # ######  END of QUESTION 4    ###   END of QUESTION 4   ##########
 
