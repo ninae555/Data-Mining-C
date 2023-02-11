@@ -372,7 +372,9 @@ print(nparray3D)
 # 6.6) from nparray3D, create a numpy array with boolean values True/False, whether 
 # the value is a multiple of three. Call this nparray5
 # remember to print the result
-# 
+
+nparry5 = []
+
 for i in range(0,2):
     for j in range (0, 3):
         for f in range(0, 4):
@@ -389,13 +391,19 @@ print(nparry5)
 # by 3, and save it as nparray6a. What is the shape of nparray6a?
 # remember to print the result
 #
+
+nparray6a = []
+
 for i in range(0,2):
     for j in range (0, 3):
         for f in range(0, 4):
-            if nparray3D[i,j,f] % 3 == 0:
-                nparray3D[i,j,f] = True
-                
-#
+            if nparray3D[i,j,f] % 3 > 0:
+                 nparray6a = nparray3D[i,j,f]
+                 print(nparray6a)
+            
+print(nparray6a)                
+
+print(f" the shape of nparray6a is : {nparray6a.shape}")              
 
 #%%
 # 6.8) Instead of getting a flat array structure, can you try to perform the filtering 
@@ -404,8 +412,18 @@ for i in range(0,2):
 # Save the result as nparray6b
 # remember to print the result
 # 
-# write your codes here
-#
+nparray6b = []
+
+for i in range(0,2):
+    for j in range (0, 3):
+        for f in range(0, 4):
+            if nparray3D[i,j,f] % 3 > 0:
+                 nparray6b = nparray3D[i,j,f]
+               
+            
+print(nparray6b)                
+
+print(f" the shape of nparray6a is : {nparray6b.shape}")   
 # 
 # ######  END of QUESTION 6    ###   END of QUESTION 6   ##########
 
