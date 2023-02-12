@@ -373,16 +373,23 @@ print(nparray3D)
 # the value is a multiple of three. Call this nparray5
 # remember to print the result
 
-nparry5 = []
+#nparry5 = np.empty((2,3,4),dtype=int)
+nparry5 = np.zeros((2,3,4),dtype=int)
+#nparry5 = np.empty(0,dtype=int)
+#nparry5.reshape(2,3,4)
+#print(nparry5)
 
 for i in range(0,2):
     for j in range (0, 3):
         for f in range(0, 4):
             if nparray3D[i,j,f] % 3 == 0:
-                nparray3D[i,j,f] = True
+                nparry5[i,j,f] = True
             else:
-                nparray3D[i,j,f] = False
-nparry5 = nparray3D
+                nparry5[i,j,f] = False
+#nparry5 = nparray3D
+
+
+
 print(nparry5)
 #
 
@@ -392,18 +399,40 @@ print(nparry5)
 # remember to print the result
 #
 
-nparray6a = []
+nparray6a = np.empty(0,dtype=int)
+
 
 for i in range(0,2):
     for j in range (0, 3):
         for f in range(0, 4):
-            if nparray3D[i,j,f] % 3 > 0:
-                 nparray6a = nparray3D[i,j,f]
-                 print(nparray6a)
+            if nparry5[i,j,f]:
+                nparray6a = np.append(nparray6a, nparray3D[i,j,f])
+                 #nparray6a.append(nparray3D[i,j,f])
+                 #print(nparray6a)
             
+#np.array(nparray6a)            
+# x = nparray6a[0]
 print(nparray6a)                
+print(f" the shape of nparray6a is : {nparray6a.shape}")     
 
-print(f" the shape of nparray6a is : {nparray6a.shape}")              
+# nparray6a2 = np.empty(0,dtype=int)
+
+
+# for i in range(0,2):
+#     for j in range (0, 3):
+#         for f in range(0, 4):
+#             if nparry5[i,j,f]:
+#                 nparray6a2 = np.append(nparray6a2, nparray3D[i,j,f])
+#                  #nparray6a.append(nparray3D[i,j,f])
+#                  #print(nparray6a)
+            
+# #np.array(nparray6a)            
+# # x = nparray6a[0]
+# print(nparray6a2)     
+
+
+
+         
 
 #%%
 # 6.8) Instead of getting a flat array structure, can you try to perform the filtering 
@@ -412,18 +441,34 @@ print(f" the shape of nparray6a is : {nparray6a.shape}")
 # Save the result as nparray6b
 # remember to print the result
 # 
-nparray6b = []
+
+nparray6b = nparray3D
+nparray6b = np.full((2,3,4),-1,dtype=int)
+#nparray6b.reshape(2,3,4)
 
 for i in range(0,2):
     for j in range (0, 3):
         for f in range(0, 4):
-            if nparray3D[i,j,f] % 3 > 0:
-                 nparray6b = nparray3D[i,j,f]
-               
+            # print(nparray3D[i,j,f])
+            if nparray3D[i,j,f] % 3 == 0:
+ #                nparray6b = np.append(nparray6b, nparray3D[i,j,f])
+                #print(nparray3D[i,j,f])
+                nparray6b[i,j,f] = nparray3D[i,j,f]
+            # else:
+            #     # print("asigning default value")
+            #     nparray6b[i,j,f] = None
+
+
+#for i in range(0,2):
+ #   for j in range (0, 3):
+ #       for f in range(0, 4):
+  #          if nparray3D[i,j,f] % 3 == 0:
+ #                nparray6b = np.append(nparray6b, nparray3D[i,j,f])
+                #nparray6b[i,j,f] = nparray3D[i,j,f]
             
 print(nparray6b)                
 
-print(f" the shape of nparray6a is : {nparray6b.shape}")   
+print(f" the shape of nparray6b is : {nparray6b.shape}")   
 # 
 # ######  END of QUESTION 6    ###   END of QUESTION 6   ##########
 
