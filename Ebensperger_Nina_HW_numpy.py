@@ -443,7 +443,7 @@ print(f" the shape of nparray6a is : {nparray6a.shape}")
 # 
 
 nparray6b = nparray3D
-nparray6b = np.full((2,3,4),dtype=int)
+nparray6b = np.zeros((2, 3, 4), dtype=int)
 #nparray6b.reshape(2,3,4)
 
 for i in range(0,2):
