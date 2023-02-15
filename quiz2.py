@@ -75,23 +75,23 @@ course_list = [("Supervised Learning with scikit-learn", 4.0),
                ("Cluster Analysis in Python", 4.0),
                ("Applied Social Network Analysis in Python", 4.0)]
 
-# start date and time
+
 start_date = "2022-03-01"
 start_day = 1
 
-# initialize hours left in the day
+
 hours_left = 8.0
 
-# loop through the course list
+
 for i, course in enumerate(course_list):
-    # calculate the end date and time for the current course
+   
     days, hours = divmod(course[1], hours_left)
     end_date = (start_day + days) % 7 + 1
     end_time = (hours_left + hours) % 8
 
-    # print the course schedule
+   
     print(f"Mar {int(end_date)} ({'Mon' if end_date == 1 else 'Tue' if end_date == 2 else 'Wed' if end_date == 3 else 'Thu' if end_date == 4 else 'Fri' if end_date == 5 else 'Sat' if end_date == 6 else 'Sun'}): {course[0]} : {min(course[1], hours_left):.1f} hour")
-    # update the start date and time for the next course
+    
     start_day = end_date
     hours_left = 8.0 if end_time == 0 else 8.0 - end_time
 
