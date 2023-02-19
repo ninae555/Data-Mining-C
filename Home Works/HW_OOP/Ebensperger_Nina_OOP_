@@ -11,13 +11,7 @@
 
 #%% [markdown]
 
-import pandas as pd
 
-
-
-df = pd.read_csv("https://raw.githubusercontent.com/ning-rui/23SP_DATS6103/main/Assignment/Hw_OOP/AAPL_daily.csv?token=GHSAT0AAAAAAB432WTVX7QVUWNH7TIGWBROY7SOOKQ")
-
-df.head
 
 # # Part I
 # 
