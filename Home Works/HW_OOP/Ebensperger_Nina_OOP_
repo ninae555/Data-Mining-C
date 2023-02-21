@@ -311,7 +311,7 @@ aapl.nday_change_percent(n=600)
 msft.nday_change_percent(n=50)
 msft.nday_change_percent(n=200)
 msft.nday_change_percent(n=600)
-# 
+# The MSFT is the best performing one with a 202.74% change
 #  ######  END QUESTION 6 ######  END QUESTION 6 ######  END QUESTION 6 ######  END QUESTION 6 ######  
 
 
