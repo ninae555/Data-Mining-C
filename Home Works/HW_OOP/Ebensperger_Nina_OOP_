@@ -238,10 +238,16 @@ class Stock:
     # insert new eod data value to price_eod
     self.price_eod.insert(0, newprice)
     # calculate and insert new data to delta1
- 
-    self.delta1.insert(0,Stock.compute_delta1_list(Stock.price_eod))
+    eod_shift1 = self.price_eod[1]
+    newdelta1 = newprice - eod_shift1
+    self.delta1.insert(0, newdelta1)
     # calculate and insert new data to delta2
-    self.delta2.insert()
+    if len(self.price_eod) > 2:
+      eod_shift2 = self.price_eod[2]
+      newdelta2 = newprice - eod_shift2
+    else: 
+      newdelta2 = None
+    self.delta2.insert(0, newdelta2)
     #
     #  ######  END QUESTION 3 ######  END QUESTION 3 ######  END QUESTION 3 ######  END QUESTION 3 ######  
 
