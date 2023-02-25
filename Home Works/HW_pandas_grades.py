@@ -4,8 +4,8 @@
 #%% [markdown]
 #
 # # HW Pandas - grades
-# ## By: xxx
-# ### Date: xxxxxxx
+# ## By: Nina Ebensperger
+# ### Date: March 1st, 2023
 #
 
 #%% [markdown]
@@ -13,6 +13,8 @@
 #
 
 #%%
+
+
 import rfit
 import os
 import numpy as np
@@ -37,8 +39,11 @@ rfit.dfchk(dats)
 # Hint, use .mean() function of pandas dataframe
 
 # ######  QUESTION 1      QUESTION 1      QUESTION 1   ##########
+#Getting columns in dataframe to find the variables
+print(f" The following is the list of variables along with the data type: {dats.columns}")
 
-# write your codes here
+#finding the class average 
+
 
 # ######  END of QUESTION 1    ###   END of QUESTION 1   ##########
 
