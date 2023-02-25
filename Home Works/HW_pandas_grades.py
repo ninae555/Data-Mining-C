@@ -44,7 +44,7 @@ print(f" The following is the list of variables along with the data type: {dats.
 
 #finding the class average 
 #finding mean for HW 
-hw_mean_indy = dats[["H1", "H2", "H3", "H4","H5", "H6", "H7", "H8"]].mean()
+hw_mean_indy = (dats["H1"] + dats["H2"] + dats["H3"] + dats["H4"] + dats["H5"] + dats["H6"] + dats["H7"] + dats["H8"]).mean()
 hw_mean = hw_mean_indy.mean()
 print(f"the mean for all homeworks is: {hw_mean}")
 
@@ -54,7 +54,9 @@ quiz_mean = q_mean_indy.mean()
 print(f"the mean for all quizes is: {quiz_mean}")
 
 #finding mean for project
-
+p_mean_indy = dats[["Proj1","Proj2"]].mean()
+proj_mean = p_mean_indy.mean()
+print(f"the mean for all projects is: {proj_mean}")
 
 
 
@@ -67,8 +69,13 @@ print(f"the mean for all quizes is: {quiz_mean}")
 # Hint: use .iloc to select the HW columns, and then use .mean(axis=1) to find the row average
 
 # ######  QUESTION 2      QUESTION 2      QUESTION 2   ##########
+#calculating mean of each row 
+student_mean = dats.iloc[:,0:7].mean(axis=1)*10
 
-# write your codes here
+# print(student_mean)
+#inserting new column after H8
+dats.insert(loc = 8, column = 'HWavg', value = student_mean)
+
 
 # ######  END of QUESTION 2    ###   END of QUESTION 2   ##########
 
@@ -80,8 +87,22 @@ dats.head() # check result
 # Calculate the total and add to the df as the last column, named 'total', out of 100 max.
 
 # ######  QUESTION 3      QUESTION 3      QUESTION 3   ##########
+#calculating the weighted grade
 
-# write your codes here
+#calculating total weighted homework score
+hW_total = (dats['HWavg'] * .3)
+
+#calucating total weighted quiz score
+q_total = (dats['Q1'] * .10 + dats['Q2'] * .15)  
+
+#calculating total weighted project score
+p_total = (dats['Proj1'] * .20 + dats['Proj2'] * .25)
+
+#all weighted scores sum
+dats['totals'] = (( hW_total + q_total + p_total))
+
+
+
 
 # ######  END of QUESTION 3    ###   END of QUESTION 3   ##########
 
@@ -91,18 +112,34 @@ dats.head() # check result
 # Now with the two new columns, calculate the class average for everything again. 
 
 # ######  QUESTION 4      QUESTION 4      QUESTION 4   ##########
+hw_mean_indy = dats['HWavg'].mean()
+hw_mean = hw_mean_indy.mean()
+print(f"the mean for all homeworks is: {hw_mean}")
 
-# write your codes here
+#finding mean for quizes 
+q_mean_indy = dats[["Q1", "Q2"]].mean()
+quiz_mean = q_mean_indy.mean()
+print(f"the mean for all quizes is: {quiz_mean}")
+
+#finding mean for project
+p_mean_indy = dats[["Proj1","Proj2"]].mean()
+proj_mean = p_mean_indy.mean()
+print(f"the mean for all projects is: {proj_mean}")
+
+#finding mean for total
+totals_mean = dats['totals'].mean()
+print(f"the average final grade is: {totals_mean}")
+
 
 # ######  END of QUESTION 4    ###   END of QUESTION 4   ##########
 
 #%%
 # Save out your dataframe as a csv file
-# import os
+import os
 
 # ######  QUESTION 5      QUESTION 5      QUESTION 5   ##########
 
-# write your codes here
+dats.to_csv('HW_pandas.csv', index = False)
 
 # ######  END of QUESTION 5    ###   END of QUESTION 5   ##########
 
@@ -111,7 +148,7 @@ dats.head() # check result
 #%%
 # Finally, re-solve our homework exercise for calculating GPA using functions, but with a dataframe now.
 # In Week03 hw, we wrote a function to convert course total to letter grades. You can use your own, or the one from the solution file here.
-def find_grade(total):
+def find_grade(totals):
   # write an appropriate and helpful docstring
   """
   convert total score into grades
@@ -120,10 +157,35 @@ def find_grade(total):
   """
   # ######  QUESTION 6      QUESTION 6      QUESTION 6   ##########
 
-  # copy your codes here, either from your Week03 hw, or the solution file
-
+  for i, row in dats['totals']:
+    grade1 = dats['totals']
+    if grade1 >= 93: 
+        grade = f"- Grade: A"
+    elif grade1 >= 90:
+        grade = f"- Grade: A-"
+    elif grade1 >= 87:
+        grade = f"- Grade: B+"
+    elif grade1 >= 83:
+        grade = f"- Grade: B"
+    elif grade1 >= 80:
+        grade = f"- Grade: B-"
+    elif grade1 >= 77:
+        grade = f"- Grade: C+"
+    elif grade1 >= 73:
+        grade = f"- Grade: C"
+    elif grade1 >= 70:
+        grade = f"- Grade: C-"
+    elif grade1 >= 67:
+        grade = f"- Grade: D+"
+    elif grade1 >= 60:
+        grade = f"- Grade: D"
+    elif grade1 < 60: 
+        grade = f"- Grade: F"
+    
   # ######  END of QUESTION 6    ###   END of QUESTION 6   ##########
-  return # grade  
+  return grade  
+
+
 
 #%%
 # Using the .apply() method in Pandas
@@ -134,6 +196,10 @@ def find_grade(total):
 # ######  QUESTION 7      QUESTION 7      QUESTION 7   ##########
 
 # write your code using the .apply() function to obtaine a new column of letter grade (call that new column 'grade') from the total.
+
+dats['grade'] = dats['totals'].apply(find_grade)
+
+dats.head()
 
 # ######  END of QUESTION 7    ###   END of QUESTION 7   ##########
 
