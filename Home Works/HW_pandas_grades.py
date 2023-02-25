@@ -43,6 +43,19 @@ rfit.dfchk(dats)
 print(f" The following is the list of variables along with the data type: {dats.columns}")
 
 #finding the class average 
+#finding mean for HW 
+hw_mean_indy = dats[["H1", "H2", "H3", "H4","H5", "H6", "H7", "H8"]].mean()
+hw_mean = hw_mean_indy.mean()
+print(f"the mean for all homeworks is: {hw_mean}")
+
+#finding mean for quizes 
+q_mean_indy = dats[["Q1", "Q2"]].mean()
+quiz_mean = q_mean_indy.mean()
+print(f"the mean for all quizes is: {quiz_mean}")
+
+#finding mean for project
+
+
 
 
 # ######  END of QUESTION 1    ###   END of QUESTION 1   ##########
