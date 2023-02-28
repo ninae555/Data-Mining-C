@@ -155,35 +155,35 @@ def find_grade(totals):
   :param total: 0-100 
   :return: str
   """
-  # ######  QUESTION 6      QUESTION 6      QUESTION 6   ##########
+  # ######  QUESTION 6      QUESTION 6      QUESTION 6   #########
+  
+  if totals >= 93: 
+        grade_string = "A"
+  elif totals >= 90:
+        grade_string = "A-"
+  elif totals >= 87:
+        grade_string = "B+"
+  elif totals >= 83:
+        grade_string = "B"
+  elif totals >= 80:
+        grade_string = "B-"
+  elif totals >= 77:
+        grade_string = "C+"
+  elif totals >= 73:
+        grade_string = "C"
+  elif totals >= 70:
+        grade_string = "C-" 
+  elif totals >= 67:
+        grade_string = "D+"
+  elif totals >= 60:
+        grade_string = "D"
+  elif totals < 60: 
+        grade_string = "F"
+        
+  else:
+        None
 
-  for i, row in dats['totals']:
-    grade1 = dats['totals']
-    if grade1 >= 93: 
-        grade = f"- Grade: A"
-    elif grade1 >= 90:
-        grade = f"- Grade: A-"
-    elif grade1 >= 87:
-        grade = f"- Grade: B+"
-    elif grade1 >= 83:
-        grade = f"- Grade: B"
-    elif grade1 >= 80:
-        grade = f"- Grade: B-"
-    elif grade1 >= 77:
-        grade = f"- Grade: C+"
-    elif grade1 >= 73:
-        grade = f"- Grade: C"
-    elif grade1 >= 70:
-        grade = f"- Grade: C-"
-    elif grade1 >= 67:
-        grade = f"- Grade: D+"
-    elif grade1 >= 60:
-        grade = f"- Grade: D"
-    elif grade1 < 60: 
-        grade = f"- Grade: F"
-    
-  # ######  END of QUESTION 6    ###   END of QUESTION 6   ##########
-  return grade  
+  return grade_string
 
 
 
@@ -200,6 +200,7 @@ def find_grade(totals):
 dats['grade'] = dats['totals'].apply(find_grade)
 
 dats.head()
+dats.sample(10)
 
 # ######  END of QUESTION 7    ###   END of QUESTION 7   ##########
 
