@@ -58,9 +58,6 @@ ax.set_title('Scatter Plot of Petal Length vs. Sepal Length')
 # # Display the plot
 plt.show()
 # %%
-#Fitting a regression model predicting 
-#sepal lenght based on petal lenght
-#petal width and sepal width 
 
 import sklearn
 from sklearn import metrics
