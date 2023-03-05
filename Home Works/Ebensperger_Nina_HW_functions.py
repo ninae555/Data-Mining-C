@@ -167,7 +167,7 @@ def to_gradepoint_credit(course):
     """This function calculates the 
 
 
-    Returns: " %.2f " % grade_point_credit
+    Returns:  grade_point_credit
         
     """
     grade_point_credit = to_gradepoint(course['grade']) * course['credits']
@@ -211,11 +211,9 @@ def find_gpa(courses):
     
     for course in courses:
         gpc = course['credits'] * to_gradepoint(course['grade'])
-        # print(f" gpc {gpc}")
-        total_grade_point_credit += gpc
-        # print(f"tgpc {total_grade_point_credit}")
+        total_grade_point_credit += gpc 
         total_credits += course['credits']
-        # print(total_credits)
+        
     
     gpa = total_grade_point_credit / total_credits
    
@@ -258,43 +256,40 @@ print(type(course))
 print(type(printCourseRecord(course)))
 #%%
 ###################################### Question 7 ###############################
-#print out the complete transcript and the gpa at the end
-# 2018 spring - DATS 6101 : Intro to DS (3 credits) B-  Grade point credits: 8.10 
-# 2018 fall - DATS 6102 : Data Warehousing (4 credits) A-  Grade point credits: 14.80 
+
 # 
 # Cumulative GPA: 
  
 def printTranscript(courses):
-  # write an appropriate and helpful docstring
-  for course in courses:
-    # print out each record as before
-  
-  # after the completion of the loop, print out a new line with the gpa info
-  
-  return # or return None
+    """ Function to print out complete transcript and gpa
 
-# Try to run, see if it works as expected to produce the desired result
-# courses is already definted in Q4
+
+    Returns:
+        [year][semester] - [course ID]: [course name] (credits) [letter grade]- grade point credits:[#]
+    """
+    for course in courses:
+          print(f"{course['year']} {course['semester']} - {course['id']} : {course['class']} ({course['credits']} credits) {course['grade']} Grade Point Credit: {' %.2f ' % to_gradepoint_credit(course)}")
+    
+    print(f" Cummulative GPA: {' %.2f ' % find_gpa(courses)}")
+  
+        
+  
+    return 
+
 printTranscript(courses)
-# The transcript should exactly look like this: 
-# 2020 spring - DATS 6101 : Intro to DS (3 credits) B- Grade point credits: 8.10
-# 2020 fall - DATS 6102 : Data Warehousing (4 credits) A- Grade point credits: 14.80
-# 2020 spring - DATS 6103 : Intro Data Mining (3 credits) A Grade point credits: 12.00
-# 2020 fall - DATS 6202 : Machine Learning I (4 credits) B+ Grade point credits: 13.20
-# 2021 spring - DATS 6203 : Machine Learning II (4 credits) A- Grade point credits: 14.80
-# 2021 spring - DATS 6401 : Visualization (3 credits) C+ Grade point credits: 6.90
-# 2021 fall - DATS 6101 : Capstone (3 credits) A- Grade point credits: 11.10
-# Cumulative GPA: 3.37
+
 
 # What is the input (function argument) data type for printTranscript? 
-# What is the output (function return) data type for printTranscript(courses) ?
 
+print(type(courses))
+
+# What is the output (function return) data type for printTranscript(courses) ?
+print(type(printTranscript(courses)))
 
 
 #%% 
 # ######  QUESTION 8   Recursive function   ##########
-# What is recursive function? Review out class notes: https://docs.google.com/document/d/1PTEBHBASfeYMmuFIE04diRiDpWynvt2v-mizwDW2GW0/edit#
-# Write a recursive function that calculates the Fibonacci sequence (https://www.mathsisfun.com/numbers/fibonacci-sequence.html)
+
 # The recusive relation is fib(n) = fib(n-1) + fib(n-2), 
 # and the typically choice of seed values are fib(0) = 0, fib(1) = 1. 
 # From there, we can build fib(2) and onwards to be 
@@ -309,13 +304,19 @@ def fib(n):
   :param n: the index, starting from 0
   :return: the sequence
   """
-  # assume n is positive integer
-  # ??????    fill in your codes here
+  if n == 0:
+      return 0
+  if n == 1:
+      return 1
+  
+  n = fib(n-1) + fib(n-2)
+  
+  
 
-  return # return what ????
 
+  return n
 
-# Try:
+# Test:
 for i in range(12):
   print(fib(i))  
 
@@ -339,12 +340,18 @@ def dm_fibonacci(n):
   :return: the sequence
   """
   # assume n is positive integer
-  # ??????    fill in your codes here
+  if n == 0:
+      return 1
+  if n == 1: 
+      return 1
+  if n == 2:
+      return 2
+  
+  else: 
+      n = dm_fibonacci(n-1) + 2*(dm_fibonacci(n-2)) - dm_fibonacci(n-3)
 
-  return # return what ????
-
+  return n
 for i in range(12):
-  print(dm_fibonancci(i))  # should gives 1,1,2,3,6,10,...
-
+  print(dm_fibonacci(i))  
 
 #%%
