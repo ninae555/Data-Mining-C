@@ -11,17 +11,7 @@
 # Apr 2025
 # May 2025
 # Hints:
-# Review loop with range() function. Here is an example that orints out 12 months in year one row at a time:
 
-# months = ('Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sept','Oct','Nov','Dec')
-# years = (2021, 2022, 2023, 2024, 2025)
-# for y in range(12):
-    
-#     print(months[y])
-
-# Hint: If you consider the month and year as some function that involves the index of the tuple, think how you can print out Sept 2021.
-# Then you can continue to loop the increment and get the desired year and month. (If the system messes up a month or two because of rounding, 
-# that's okay.
     
     
 months = ("Aug", "Sept", "Oct", "Nov", "Dec", "Jan", "Feb", "March", "April", "May")
@@ -41,7 +31,7 @@ for i in range(4):
 #%%
 ###################################### Question 2 ###############################
 # let us write a function find_grade(total) that converts total (0-100) to the letter grade (see conversion table in syllabus)
-# have a habbit of putting in the docstring. What should a docstring look like? See https://www.geeksforgeeks.org/python-docstrings/
+# have a habbit of putting in the docstring.
 total = 62.1
 
 def find_grade(total):
@@ -107,9 +97,7 @@ F  = 0.00
 grade = 'C-'
 
 def to_gradepoint(grade):
-  # write an appropriate and helpful docstring
-  # ??????    fill in your codes here, be sure you have all A, A-, ... thru D, and F grades completed.
-  # gradepoint = ???
+  
     """ This function converts letter grades to grade point averges 
 
     Returns:
@@ -186,8 +174,7 @@ print(type(" %.2f " % to_gradepoint_credit(course) ))
 
 #%%
 ###################################### Question 5 ###############################
-# next the function gpa(courses) to calculate the GPA 
-# It is acceptable syntax for list, dictionary, JSON and the likes to be spread over multiple lines.
+
 courses = [ 
   { "class":"Intro to DS", "id":"DATS 6101", "semester":"spring", "year":2020, "grade":'B-', "credits":3 } , 
   { "class":"Data Warehousing", "id":"DATS 6102", "semester":"fall", "year":2020, "grade":'A-', "credits":4 } , 
