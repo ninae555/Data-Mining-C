@@ -71,34 +71,6 @@ from sklearn.linear_model import LinearRegression
 
 from sklearn.metrics import r2_score
 
-#setting target and regressor variables from dataframe
-#Target variable: Sepal length
-
-#Regressor variables: Petal length, petal width, and sepal width.
-
-regressors = iris_df.drop('Labels', axis=1)
-regressors
-
-target = iris_df['Sepal Length']
-target
-
-
-#Fitting linear regression model
-
-linr_reg_model = LinearRegression().fit(regressors, target)
-linr_reg_model 
-
-print(linr_reg_model.coef_)
-print(linr_reg_model.intercept_)
-
-
-linr_reg_model.predict(iris_df[["Sepal Length","Sepal Width", " Petal Length", "Petal Width",]])
-
-#The coefficients, imbued within the coef_ attribute of the linr_reg_model object, can provide illuminating insights into the linear regression model. One of these coefficients represents the intercept term, which is influential to the value of the target variable when all the regressor variables assume a value of zero. In this instance, the intercept is close to zero (-1.78e-15), which says that the model predicts a target value close to zero when all the regressor variables assume a value of zero.
-
-# The remaining coefficients correspond to the slope of the linear regression line for each of the regressor variables. The coefficients are strikingly minuscule (on the order of 1e-16), implying that the model does not depend heavily on any of the regressor variables to predict the target variable. Furthermore, the first coefficient equals precisely 1, which suggests that the 'Petal length', 'Petal width', and 'Sepal width' variables  are linear combinations of each other. This could be attributable to the fact that these variables are highly correlated, which may instigate multicollinearity issues in the regression model.
-
-# By and large, the results implicate that the model may not be particularly effective in predicting the target variable based on the regressor variables. Thus, additional scrutiny may be required to amplify the model's performance.
 
 #Extra Credit
 
@@ -171,7 +143,7 @@ def clean_text(text):
 # Creating a new column 'clean_text' with cleaned version of 'text' field
 df['clean_text'] = df['text'].apply(clean_text)
 
-# Counting the number of rows with non-standard perspectives
+# How many of the field descriptions reference a perspective that is not standard (i.e. viewed from the top, bottom, front or rear)? Specifically, write code to count how many of the rows have the words "view" or "perspective" but do not include "bottom", "top", "front" or "rear" in  the text field?
 non_standard_perspectives = df['clean_text'].sum()
 print("Number of rows with non-standard perspectives:", non_standard_perspectives)
 
