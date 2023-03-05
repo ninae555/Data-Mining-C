@@ -4,7 +4,8 @@ import os
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-
+import seaborn as sns
+import statsmodels.api as sm
 
 #%%
 #importing data as a dataframe
@@ -106,13 +107,36 @@ print(hammingDistance("AGPRklafsdyweIllIIgEnXuTggzF", "AgpRkliFZdiweIllIIgENXUTy
 
 #%%
 
-patent_df = pd.read_csv('patent_drawing data (3).csv')
-print(patent_df.head())
-
-
 # count how many of the rows have the words "view" or "perspective" but do not include "bottom", "top", "front" or "rear" in  the text field
 
+import re
 
+# Read the csv file into a pandas dataframe
+df = pd.read_csv('patent_drawing data (3).csv')
+print(df.head())
+
+def clean_text(text):
+    # Remove any punctuation and convert to lower case
+    text = re.sub(r'[^\w\s]','',text).lower()
+    # Check if the text contains the words "view" or "perspective" but not "bottom", "top", "front" or "rear"
+    if ('view' in text or 'perspective' in text) and not ('bottom' in text or 'top' in text or 'front' in text or 'rear' in text):
+        return True
+    else:
+        return False
+
+# Create a new column 'clean_text' with cleaned version of 'text' field
+df['clean_text'] = df['text'].apply(clean_text)
+
+# Count the number of rows with non-standard perspectives
+non_standard_perspectives = df['clean_text'].sum()
+print("Number of rows with non-standard perspectives:", non_standard_perspectives)
+
+# Group the dataframe by 'patent_id' and count the number of unique 'index' values for each group
+patent_counts = df.groupby('patent_id')['index'].nunique()
+
+# Calculate the average number of drawing descriptions per patent
+avg_drawings_per_patent = np.mean(patent_counts)
+print("Average number of drawing descriptions per patent:", avg_drawings_per_patent)
 
 # What is the average number of drawing descriptions per patent? 
 # %%
