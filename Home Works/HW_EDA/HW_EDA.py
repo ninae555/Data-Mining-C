@@ -129,7 +129,7 @@ print(dfhappy.dtypes)
 print(dfhappy['Happiness'].unique())
 
 def clean(row, colname): # colname can be 'rincome', 'income' etc
-  thisamt = row[colname].strip()
+  thisamt = row[colname]
  
   if (thisamt == "Pretty happy"): return 1
   if (thisamt == "Very happy"): return 2
@@ -138,6 +138,14 @@ def clean(row, colname): # colname can be 'rincome', 'income' etc
   return np.nan
 # end function cleanDfIncome
 print("\nReady to continue.")
+
+
+dfhappy['inHappinesscome'] = dfhappy.apply(clean, colname='Happiness', axis=1)
+dfhappy.Happiness = dfhappy.apply(clean, colname='Happiness', axis=1)
+print(dfhappy.dtypes)
+
+print(dfhappy['Happiness'].unique())
+
 
 #%%
 ####### Question 7 #########
