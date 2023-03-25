@@ -58,7 +58,13 @@ dfhappy = dm.api_rfit('Happy')
 # First, familiarize yourself with the data structure
 # Optimize nomenclature by renaming columns to 'Year','ID','Hrs','Marital','Num_children','Family_income_tot','Happiness','Ballot'
 # Check your results
-#
+dfhappy.describe()
+dfhappy.head()
+
+dfhappy = dfhappy.rename(columns= {'year':'Year', 'id':'ID','hrs1':'Hrs','marital':'Marital','childs':'Num_children', 'income':'Family_income_tot','happy':'Happiness','ballet':'Ballot'})
+
+dfhappy.head()
+
 #%%
 ####### Question 2 #########
 #Check datatype of each column, what data types are they?
