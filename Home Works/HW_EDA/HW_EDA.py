@@ -80,9 +80,9 @@ print(dfhappy['Family_income_tot'].unique())
 ####### Question 3 #########
 #If the string value for Hrs suggests nonresponse or missing data, let's replace it with np.NaN. In fact, let's just do it for the whole dataset.
 
-dfhappy['Hrs_convert'] = pd.to_numeric(dfhappy.Hrs)
-
-print(dfhappy.Hrs_convert.describe(), '\n', dfhappy.Hrs_convert.value_counts(dropna=False))
+dfhappy['Hrs_convert'] = dfhappy.Hrs.map(lambda x: np.nan if x.strip()=='Dk na' else '8' if x.strip()=='Eight or more' else x )
+print( dfhappy.Hrs_convert.value_counts(dropna=False) )
+print("\nReady to continue.")
 
 
 #%%
