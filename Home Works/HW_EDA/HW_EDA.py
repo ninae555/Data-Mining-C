@@ -79,8 +79,11 @@ print(dfhappy['Family_income_tot'].unique())
 #%%
 ####### Question 3 #########
 #If the string value for Hrs suggests nonresponse or missing data, let's replace it with np.NaN. In fact, let's just do it for the whole dataset.
-#after you are done, pls check and ensure the column is now numeric
-#Hint: use the preprocess.py file under “23SP_DATS6103/mod3/Class09_Preprocess/” as a reference.
+
+dfhappy['Hrs_convert'] = pd.to_numeric(dfhappy.Hrs)
+
+print(dfhappy.Hrs_convert.describe(), '\n', dfhappy.Hrs_convert.value_counts(dropna=False))
+
 
 #%%
 ####### Question 4 #########
