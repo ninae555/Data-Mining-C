@@ -90,6 +90,33 @@ print("\nReady to continue.")
 #Now let's check column 'Num_children'; any string value responses that should be treated as nonresponse? Then converted to NaN.
 #if the response is a valid string value, convert it to numeric; if it suggests a range of numeric value, replace it with chi squared distribution
 #Hint: se the preprocess.py file under “23SP_DATS6103/mod3/Class09_Preprocess/” as a reference.
+def cleanDf(row):
+  thisincome = row["Num_children"]
+  try: thisincome = int(thisincome) # if it is string "36", now int
+  except: pass
+  
+  try: 
+    if not isinstance(thisincome,int) : thisincome = float(thisincome)  # no change if already int, or if error when trying
+  except: pass
+  
+  if ( isinstance(thisincome,int) or isinstance(thisincome,float) ) and not isinstance(thisincome, bool): return ( thisincome if thisincome>=0 else np.nan )
+  if isinstance(thisincome, bool): return np.nan
+  # else: # assume it's string from here onwards
+  thisincome = thisincome.strip()
+  if thisincome == "No answer": return np.nan
+  if thisincome == "89 or older": 
+   
+    thisincome = min(89 + 2*np.random.chisquare(2) , 100)
+    return thisincome # leave it as decimal
+  return np.nan # catch all, just in case
+# end function cleanGssAge
+print("\nReady to continue.")
+
+dfhappy['Num_children'] = dfhappy.apply(cleanDf,axis=1)
+# df[['age']] = df.apply(cleanDfAge,axis=1) # this works too
+print(dfhappy.dtypes)
+
+
 
 #%%
 ####### Question 5 #########
