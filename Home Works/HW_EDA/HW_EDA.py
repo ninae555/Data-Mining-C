@@ -178,10 +178,38 @@ print(dfhappy['Happiness'].unique())
 ####### Question 7 #########
 # For ballot, we can see that entries are 'ballot a','ballot b', etc. let's trim it down to a,b,c
 
+print(dfhappy['Ballot'].unique())
+
+def clean1(row, colname): # colname can be 'rincome', 'income' etc
+  thisamt = row[colname]
+ 
+  if (thisamt == "Ballot a"): return 'a'
+  if (thisamt == "Ballot b"): return 'b'
+  if (thisamt == "Ballot c"): return 'c'
+  if (thisamt == "Ballot d"): return 'd'
+  else: return np.nan 
+  return np.nan
+# end function cleanDfIncome
+print("\nReady to continue.")
+
+dfhappy['inBallot'] = dfhappy.apply(clean1, colname='Ballot', axis=1)
+dfhappy.Ballot = dfhappy.apply(clean1, colname='Ballot', axis=1)
+print(dfhappy.dtypes)
+
+print(dfhappy['Ballot'].unique())
+
 #%%
 ####### Question 8 #########
 # Now let's make plots. First, we need to remove null values in order to plot, which can be done using dropna() method
+dfhappy.dropna()
+
+print(dfhappy.isnull())
+
+
+
 # Make a boxplot to compare hours worked per week by Marital Status
+
+
 # Make a violin plot for income category vs happiness (where we treat happiness as a construct on a continuum.
 # Look at Lecture 8 notes for examples of violin plots
 
