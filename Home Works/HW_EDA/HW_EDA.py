@@ -68,10 +68,14 @@ dfhappy.head()
 #%%
 ####### Question 2 #########
 #Check datatype of each column, what data types are they?
-
+print(f"the data types of each column are: {dfhappy.dtypes}")
 #we can see that Hrs, Num_children, Family_income_tot are all objects, which should have been numeric.
 #Check the results using print(df['col_name'].unique()) to find why. Are any of the responses string value?
 
+print(dfhappy['Num_children'].unique())
+print(dfhappy['Family_income_tot'].unique())
+
+# Not all are numerica values, some people wrote out the number causing a string value 
 #%%
 ####### Question 3 #########
 #If the string value for Hrs suggests nonresponse or missing data, let's replace it with np.NaN. In fact, let's just do it for the whole dataset.
