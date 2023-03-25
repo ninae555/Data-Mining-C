@@ -126,6 +126,28 @@ print(dfhappy.dtypes)
 #Now check the data distribution for 'Happiness'
 #Recode 'Very happy' to 2,'Pretty happy' to 1, and 'Not too happy' to 0, and the rest to null values
 
+def clean(row, colname): # colname can be 'rincome', 'income' etc
+  thisamt = row[colname].strip()
+ 
+  if (thisamt == "Lt $1000"): return np.random.uniform(0,999)
+  if (thisamt == "$1000 to 2999"): return np.random.uniform(1000,2999)
+  if (thisamt == "$3000 to 3999"): return np.random.uniform(3000,3999)
+  if (thisamt == "$4000 to 4999"): return np.random.uniform(4000,4999)
+  if (thisamt == "$5000 to 5999"): return np.random.uniform(5000,5999)
+  if (thisamt == "$6000 to 6999"): return np.random.uniform(6000,6999)
+  if (thisamt == "$7000 to 7999"): return np.random.uniform(7000,7999)
+  if (thisamt == "$8000 to 9999"): return np.random.uniform(8000,9999)
+  if (thisamt == "$10000 - 14999"): return np.random.uniform(10000,14999)
+  if (thisamt == "$15000 - 19999"): return np.random.uniform(15000,19999)
+  if (thisamt == "$20000 - 24999"): return np.random.uniform(20000,24999)
+  if (thisamt == "$25000 or more"): return ( 25000 + 10000*np.random.chisquare(2) )
+  if (thisamt == "Don't know"): return np.nan
+  if (thisamt == "Not applicable"): return np.nan
+  if (thisamt == "Refused"): return np.nan 
+  return np.nan
+# end function cleanDfIncome
+print("\nReady to continue.")
+
 #%%
 ####### Question 7 #########
 # For ballot, we can see that entries are 'ballot a','ballot b', etc. let's trim it down to a,b,c
