@@ -94,6 +94,31 @@ print("\nReady to continue.")
 #%%
 ####### Question 5 #########
 #Repeat the same data cleaning and wrangling process for column 'Family_income_tot', following the steps in the preprocess.py file.
+def cleanDf(row):
+  thisincome = row["Family_income_tot"]
+  try: thisincome = int(thisincome) # if it is string "36", now int
+  except: pass
+  
+  try: 
+    if not isinstance(thisincome,int) : thisincome = float(thisincome)  # no change if already int, or if error when trying
+  except: pass
+  
+  if ( isinstance(thisincome,int) or isinstance(thisincome,float) ) and not isinstance(thisincome, bool): return ( thisincome if thisincome>=0 else np.nan )
+  if isinstance(thisincome, bool): return np.nan
+  # else: # assume it's string from here onwards
+  thisincome = thisincome.strip()
+  if thisincome == "No answer": return np.nan
+  if thisincome == "89 or older": 
+   
+    thisincome = min(89 + 2*np.random.chisquare(2) , 100)
+    return thisincome # leave it as decimal
+  return np.nan # catch all, just in case
+# end function cleanGssAge
+print("\nReady to continue.")
+
+dfhappy['Family_income_tot'] = dfhappy.apply(cleanDf,axis=1)
+# df[['age']] = df.apply(cleanDfAge,axis=1) # this works too
+print(dfhappy.dtypes)
 
 
 #%%
