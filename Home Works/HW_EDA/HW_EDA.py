@@ -80,7 +80,7 @@ print(dfhappy['Family_income_tot'].unique())
 ####### Question 3 #########
 #If the string value for Hrs suggests nonresponse or missing data, let's replace it with np.NaN. In fact, let's just do it for the whole dataset.
 
-dfhappy['Hrs_convert'] = dfhappy.Hrs.map(lambda x: np.nan if x.strip()=='Dk na' else '8' if x.strip()=='Eight or more' else x )
+dfhappy['Hrs_convert'] = pd.to_numeric(dfhappy['Hrs'], errors='coerce')
 print( dfhappy.Hrs_convert.value_counts(dropna=False) )
 print("\nReady to continue.")
 
@@ -90,29 +90,16 @@ print("\nReady to continue.")
 #Now let's check column 'Num_children'; any string value responses that should be treated as nonresponse? Then converted to NaN.
 #if the response is a valid string value, convert it to numeric; if it suggests a range of numeric value, replace it with chi squared distribution
 #Hint: se the preprocess.py file under “23SP_DATS6103/mod3/Class09_Preprocess/” as a reference.
-def cleanDf(row):
-  thisincome = row["Num_children"]
-  try: thisincome = int(thisincome) # if it is string "36", now int
-  except: pass
-  
-  try: 
-    if not isinstance(thisincome,int) : thisincome = float(thisincome)  # no change if already int, or if error when trying
-  except: pass
-  
-  if ( isinstance(thisincome,int) or isinstance(thisincome,float) ) and not isinstance(thisincome, bool): return ( thisincome if thisincome>=0 else np.nan )
-  if isinstance(thisincome, bool): return np.nan
-  # else: # assume it's string from here onwards
-  thisincome = thisincome.strip()
-  if thisincome == "No answer": return np.nan
-  if thisincome == "89 or older": 
-   
-    thisincome = min(89 + 2*np.random.chisquare(2) , 100)
-    return thisincome # leave it as decimal
+def clean_children(x):
+  if x.isdigit():
+      return int(x)
+  if 'Eight' in x:
+      return 8 + 2*np.random.chisquare(2)
   return np.nan # catch all, just in case
 # end function cleanGssAge
 print("\nReady to continue.")
 
-dfhappy['Num_children'] = dfhappy.apply(cleanDf,axis=1)
+dfhappy['Num_children'] = dfhappy['Num_children'].apply(clean_children)
 # df[['age']] = df.apply(cleanDfAge,axis=1) # this works too
 print(dfhappy.dtypes)
 
@@ -121,32 +108,29 @@ print(dfhappy.dtypes)
 #%%
 ####### Question 5 #########
 #Repeat the same data cleaning and wrangling process for column 'Family_income_tot', following the steps in the preprocess.py file.
-def cleanDf(row):
-  thisincome = row["Family_income_tot"]
-  try: thisincome = int(thisincome) # if it is string "36", now int
-  except: pass
-  
-  try: 
-    if not isinstance(thisincome,int) : thisincome = float(thisincome)  # no change if already int, or if error when trying
-  except: pass
-  
-  if ( isinstance(thisincome,int) or isinstance(thisincome,float) ) and not isinstance(thisincome, bool): return ( thisincome if thisincome>=0 else np.nan )
-  if isinstance(thisincome, bool): return np.nan
-  # else: # assume it's string from here onwards
-  thisincome = thisincome.strip()
-  if thisincome == "No answer": return np.nan
-  if thisincome == "89 or older": 
-   
-    thisincome = min(89 + 2*np.random.chisquare(2) , 100)
-    return thisincome # leave it as decimal
-  return np.nan # catch all, just in case
+def cleanDfIncome(thisamt): 
+    
+  thisamt = thisamt.strip()
+  if (thisamt == "Lt $1000"): return np.random.uniform(0,999)
+  if (thisamt == "$1000 to 2999"): return np.random.uniform(1000,2999)
+  if (thisamt == "$3000 to 3999"): return np.random.uniform(3000,3999)
+  if (thisamt == "$4000 to 4999"): return np.random.uniform(4000,4999)
+  if (thisamt == "$5000 to 5999"): return np.random.uniform(5000,5999)
+  if (thisamt == "$6000 to 6999"): return np.random.uniform(6000,6999)
+  if (thisamt == "$7000 to 7999"): return np.random.uniform(7000,7999)
+  if (thisamt == "$8000 to 9999"): return np.random.uniform(8000,9999)
+  if (thisamt == "$10000 - 14999"): return np.random.uniform(10000,14999)
+  if (thisamt == "$15000 - 19999"): return np.random.uniform(15000,19999)
+  if (thisamt == "$20000 - 24999"): return np.random.uniform(20000,24999)
+  if (thisamt == "$25000 or more"): return ( 25000 + 10000*np.random.chisquare(2) )
+  return np.nan
 # end function cleanGssAge
 print("\nReady to continue.")
 
-dfhappy['Family_income_tot'] = dfhappy.apply(cleanDf,axis=1)
+dfhappy['Family_income_tot'] = dfhappy['Family_income_tot'].apply(cleanDfIncome)
 # df[['age']] = df.apply(cleanDfAge,axis=1) # this works too
 print(dfhappy.dtypes)
-
+print(dfhappy['Family_income_tot'].unique())
 
 #%%
 ####### Question 6 #########
@@ -155,23 +139,21 @@ print(dfhappy.dtypes)
 
 print(dfhappy['Happiness'].unique())
 
-def clean(row, colname): # colname can be 'rincome', 'income' etc
-  thisamt = row[colname]
+def clean_happiness(thisamt): 
  
   if (thisamt == "Pretty happy"): return 1
   if (thisamt == "Very happy"): return 2
   if (thisamt == "Not too happy"): return 0
-  else: return np.nan 
   return np.nan
 # end function cleanDfIncome
 print("\nReady to continue.")
 
 
-dfhappy['inHappinesscome'] = dfhappy.apply(clean, colname='Happiness', axis=1)
-dfhappy.Happiness = dfhappy.apply(clean, colname='Happiness', axis=1)
+dfhappy['inHappiness'] = dfhappy['Happiness'].apply(clean_happiness)
+
 print(dfhappy.dtypes)
 
-print(dfhappy['Happiness'].unique())
+print(dfhappy['inHappiness'].unique())
 
 
 #%%
@@ -180,43 +162,95 @@ print(dfhappy['Happiness'].unique())
 
 print(dfhappy['Ballot'].unique())
 
-def clean1(row, colname): # colname can be 'rincome', 'income' etc
-  thisamt = row[colname]
+def clean_Ballot(thisamt): # colname can be 'rincome', 'income' etc
+  
  
   if (thisamt == "Ballot a"): return 'a'
   if (thisamt == "Ballot b"): return 'b'
   if (thisamt == "Ballot c"): return 'c'
-  if (thisamt == "Ballot d"): return 'd'
-  else: return np.nan 
+  if (thisamt == "Ballot d"): return 'd'  
   return np.nan
 # end function cleanDfIncome
 print("\nReady to continue.")
 
-dfhappy['inBallot'] = dfhappy.apply(clean1, colname='Ballot', axis=1)
-dfhappy.Ballot = dfhappy.apply(clean1, colname='Ballot', axis=1)
+dfhappy['inBallot'] = dfhappy['Ballot'].apply(clean_Ballot)
+
 print(dfhappy.dtypes)
 
-print(dfhappy['Ballot'].unique())
+print(dfhappy['inBallot'].unique())
 
 #%%
 ####### Question 8 #########
 # Now let's make plots. First, we need to remove null values in order to plot, which can be done using dropna() method
 dfhappy.dropna()
 
+
+import seaborn as sns
+
 print(dfhappy.isnull())
 
+print(dfhappy.head())
 
 
-# Make a boxplot to compare hours worked per week by Marital Status
+# Make a boxplot to compare hours worked per week by Marital Status (Hrs)(Marital)
 
+print(dfhappy['Marital'].unique())
 
-# Make a violin plot for income category vs happiness (where we treat happiness as a construct on a continuum.
+sns.boxplot(x='Marital', y='Hrs_convert', data=dfhappy)
+
+#%% Make a violin plot for income category vs happiness (where we treat happiness as a construct on a continuum.
 # Look at Lecture 8 notes for examples of violin plots
+
+
+sns.violinplot(x=dfhappy["Marital"], y=dfhappy["Hrs_convert"])
+
+
+
 
 #%%
 ####### Question 9 #########
 # Conduct significance testing to determine if hours worked per week differ significantly by marital status;
 # if so, which group is different signficantly from which?
+import numpy as np
+import scipy.stats as stats
+
+df9 = dfhappy.dropna(subset=['Hrs_convert', 'Marital'])
+
+#print(df9.head())
+
+group1 = df9[df9['Marital'] == 'Never married']['Hrs_convert']
+group2 = df9[df9['Marital'] == 'Married']['Hrs_convert']
+group3 = df9[df9['Marital'] == 'Divorced']['Hrs_convert']
+
+print(group1.head())
+
+# ANOVA
+f_stat, p_val = stats.f_oneway(group1, group2, group3)
+
+print("F statistic:", f_stat)
+print("p-value:", p_val)
+
+# The F Statistic and p-value turn out to be  Since the p-value is higher than 0.05, our F statistic is not statistically signiciant and we would accept the null hypothesis. We can say that there no not enough sufficient proof that there exists a difference in the hours worked amound marital status. 
+
+
 #%%
 ####### Question 10 #########
-### Do whatever you can to find out if number of children is dependent on happiness and/or if happiness is dependent on number of children
+### Do whatever you can to find out if number of children is dependent on happiness and/or if happiness is dependent on number of children..
+
+df10 = dfhappy.dropna(subset=['Num_children', 'inHappiness'])
+
+print(df10.head())
+
+group1 = df10[df10['inHappiness'] == 0]['Num_children']
+group2 = df10[df10['inHappiness'] == 1]['Num_children']
+
+t_stat, p_value = stats.ttest_ind(group1, group2)
+
+# Print the results
+print("t-statistic:", t_stat)
+print("p-value:", p_value)
+
+
+
+
+# %%
