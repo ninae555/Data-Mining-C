@@ -216,22 +216,56 @@ import scipy.stats as stats
 
 df9 = dfhappy.dropna(subset=['Hrs_convert', 'Marital'])
 
+#print(df9.describe())
+print(df9.isnull().sum())
+
 #print(df9.head())
+
+sns.boxplot(x='Marital', y='Hrs_convert', data=df9)
+plt.show()
 
 group1 = df9[df9['Marital'] == 'Never married']['Hrs_convert']
 group2 = df9[df9['Marital'] == 'Married']['Hrs_convert']
 group3 = df9[df9['Marital'] == 'Divorced']['Hrs_convert']
+group4 = df9[df9['Marital'] == 'Never married']['Hrs_convert']
+group5 = df9[df9['Marital'] == 'Widowed']['Hrs_convert']
+group6 = df9[df9['Marital'] == 'No answer']['Hrs_convert']
 
 print(group1.head())
 
 # ANOVA
-f_stat, p_val = stats.f_oneway(group1, group2, group3)
+f_stat, p_val = stats.f_oneway(group1, group2, group3, group4, group5, group6)
 
 print("F statistic:", f_stat)
 print("p-value:", p_val)
 
-# The F Statistic and p-value turn out to be  Since the p-value is higher than 0.05, our F statistic is not statistically signiciant and we would accept the null hypothesis. We can say that there no not enough sufficient proof that there exists a difference in the hours worked amound marital status. 
 
+# As we see, the p-value is less than 0.05, meaning there is a sgnificant difference in the hours worked a week by marital status. 
+
+#To find out which group is significant I will do a Tukey HSD Test
+import statsmodels.stats.multicomp as mc
+
+from statsmodels.formula.api import ols
+
+
+groups = [group1, group2, group3, group4, group5, group6]
+group_labels = ['Never married', 'Married', 'Divorced', 'Widowed', 'No answer']
+
+data = pd.concat(groups, keys=group_labels)
+
+data = data.reset_index(level=[0])
+
+model = ols('Hrs_convert ~ C(level_0)', data=data).fit()
+
+mc_object = mc.MultiComparison(data['Hrs_convert'], data['level_0'])
+
+tukey_result = mc_object.tukeyhsd()
+
+tukey_df = pd.read_html(tukey_result.summary().as_html(), header=0, index_col=0)[0]
+
+significant_differences = tukey_df[tukey_df["reject"]]
+
+print(significant_differences)
 
 #%%
 ####### Question 10 #########
@@ -240,6 +274,7 @@ print("p-value:", p_val)
 df10 = dfhappy.dropna(subset=['Num_children', 'inHappiness'])
 
 print(df10.head())
+
 
 group1 = df10[df10['inHappiness'] == 0]['Num_children']
 group2 = df10[df10['inHappiness'] == 1]['Num_children']
@@ -250,7 +285,7 @@ t_stat, p_value = stats.ttest_ind(group1, group2)
 print("t-statistic:", t_stat)
 print("p-value:", p_value)
 
-
+#P-value is less than 0.05, so there is a significant difference between the number of children and happiness. 
 
 
 # %%
