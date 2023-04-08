@@ -84,7 +84,27 @@ plt.show()
 # build a logistic regression model for survival. Include the features that you find plausible. 
 # Make sure categorical variables are use properly. If the coefficient(s) turns out insignificant, drop it and re-build.
 # 
-import statsmodels as sm
+#`survived`: Survival,	0 = No, 1 = Yes
+# * `pclass`: Ticket class, 1 = 1st, 2 = 2nd, 3 = 3rd
+# * `sex`: Gender / Sex
+# * `age`: Age in years
+# * `sibsp`: # of siblings / spouses on the Titanic
+# * `parch`: # of parents / children on the Titanic
+# * `ticket`: Ticket number (for superstitious ones)
+# * `fare`: Passenger fare
+# * `embarked`: Port of Embarkment	C: Cherbourg, Q: 
+view = titanic.head
+print(view)
+
+
+
+import statsmodels.formula.api as smf
+
+model = smf.logit('survived ~ sex + age + pclass + sibsp', data=titanic).fit()
+
+print(model.summary())
+
+# I can see that parch is not significant with a P-value at 0.835. So I will remove it from my model. 
 
 
 
@@ -96,15 +116,63 @@ import statsmodels as sm
 # no siblings, 3 parents/children on the trip? Use whatever variables that are relevant in your model.
 # 
 # 
-# 
+print(model.summary())
+
+
+
+modelpredicitons = pd.DataFrame( columns=['survived'], data= model.predict(titanic)) 
+
+modelpredicitons['survivalLogit'] = model.predict(titanic)
+print(modelpredicitons.head())
+
+print("\nReady to continue.")
+
+age = 30
+sex = 'female'
+pclass = 2
+sibsp = 0
+parch = 3
+
+# Scenario values
+scenario_df = pd.DataFrame({'age': [age], 'sex': [sex], 'class': [pclass], 'sibsp': [sibsp], 'parch': [parch]})
+
+
+predicted_probabilities = model.predict(scenario_df)
+
+predicted_probability = predicted_probabilities[0]
+
+print("Predicted probability of survival:", predicted_probability)
+
+
+
 #%%
 # Question 4
 # Now use the sklearn package, perform the same model and analysis as in Question 3. 
 # In sklearn however, it is easy to set up the train-test split before we build the model. 
 # Use 67-33 split to solve this problem. 
 # Find out the accuracy score of the model.
-# 
-# 
+import pandas as pd
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+
+X_train, X_test, y_train, y_test = train_test_split(titanic.drop('survived', axis=1), titanic['survived'], test_size=0.2, random_state=42)
+ 
+model = LogisticRegression()
+
+
+# Train the model on the training set
+model.fit(X_train, y_train)
+
+
+# Make predictions on the testing set
+y_pred = model.predict(X_test)
+
+
+# Evaluate the model's accuracy
+accuracy = accuracy_score(y_test, y_pred)
+print('Accuracy:', accuracy)
+
 # 
 #%%
 # Question 5
