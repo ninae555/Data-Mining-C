@@ -100,12 +100,14 @@ print(view)
 
 import statsmodels.formula.api as smf
 
-model = smf.logit('survived ~ sex + age + pclass + sibsp', data=titanic).fit()
+model = smf.logit('survived ~ sex + age + pclass + sibsp + parch', data=titanic).fit()
 
 print(model.summary())
 
 # I can see that parch is not significant with a P-value at 0.835. So I will remove it from my model. 
+model = smf.logit('survived ~ sex + age + pclass + sibsp', data=titanic).fit()
 
+print(model.summary())
 
 
 #%% 
@@ -118,7 +120,7 @@ print(model.summary())
 # 
 print(model.summary())
 
-
+# ANALYSIS
 
 modelpredicitons = pd.DataFrame( columns=['survived'], data= model.predict(titanic)) 
 
@@ -127,6 +129,7 @@ print(modelpredicitons.head())
 
 print("\nReady to continue.")
 
+#Female 30 yrs of age, with a second class ticket, no siblings and 3 parents 
 age = 30
 sex = 'female'
 pclass = 2
@@ -155,21 +158,40 @@ import pandas as pd
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
+from sklearn.preprocessing import OneHotEncoder
 
-X_train, X_test, y_train, y_test = train_test_split(titanic.drop('survived', axis=1), titanic['survived'], test_size=0.2, random_state=42)
- 
+# column_name = 'sex'  # 
+# search_string = 'STON/O 2. 3101293'
+# result = titanic[titanic[column_name].str.contains(search_string, na=False)]
+
+# Display the resulting DataFrame
+# print(result)
+
+
+#Converting categorical string into categorical numeric value 
+
+
+titanic_onehot = pd.get_dummies(titanic, columns = ['sex'])
+print(titanic_onehot)
+
+# type = titanic_onehot['sex'].dtypes
+# print(type)
+# type = titanic_onehot['survived'].dtypes
+# print(type)
+
+# Splitting the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(titanic_onehot.drop('survived', axis=1), titanic_onehot['survived'], test_size=0.2, random_state=42)
+
+# Creating an instance of LogisticRegression
 model = LogisticRegression()
 
-
-# Train the model on the training set
+# Training the model on the training set
 model.fit(X_train, y_train)
 
-
-# Make predictions on the testing set
+# Making predictions on the testing set
 y_pred = model.predict(X_test)
 
-
-# Evaluate the model's accuracy
+# Evaluating the model's accuracy
 accuracy = accuracy_score(y_test, y_pred)
 print('Accuracy:', accuracy)
 
