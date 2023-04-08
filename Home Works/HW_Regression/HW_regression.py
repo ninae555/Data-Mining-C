@@ -4,8 +4,8 @@
 #%%[markdown]
 #
 # # HW Regression
-# ## By: xxx
-# ### Date: xxxxxxx
+# ## By: Nina Ebenspreger
+# ### Date: April 8, 2023
 #
 # 
 # We have the historic Titanic dataset to study here. You can use `Titanic` with rfit.dfapi
@@ -35,11 +35,48 @@ import rfit
 titanic = rfit.dfapi('Titanic','id')
 # then perform some summary statistics. 
 # a)	Histogram on age. Maybe a stacked histogram on age with male-female as two series if possible
+sns.histplot(data=titanic, stat="count", multiple="stack", x="age", kde=False, palette="pastel", hue="sex",element="bars", legend=True, bins=50)
+plt.title("Stacked Histogram of age by gender")
+plt.show()
+
+
 # b)	proportion summary of male-female, survived-dead
+sex_counts = titanic['sex'].value_counts()
+plt.pie(sex_counts, labels=sex_counts.index, autopct='%1.1f%%', startangle=90)
+plt.title('Proportional Summary of Sex on Titanic')
+plt.show()
+
+
 # c)	pie chart for “Ticket class”
+pclass_counts = titanic['pclass'].value_counts()
+plt.pie(pclass_counts, labels=pclass_counts.index, autopct='%1.1f%%', startangle=90)
+plt.title('Pie chart of Ticket Class on Titanic')
+plt.show()
+
 # d)	A single visualization chart that shows info of survival, age, pclass, and sex.
-# 
-# 
+
+fig, axs = plt.subplots(nrows=2, figsize=(8, 10))
+
+
+sns.violinplot(data=titanic, x=titanic["pclass"], y=titanic["age"], hue='sex', palette=['cornflowerblue', 'indianred'], ax=axs[0])
+axs[0].set(xlabel='', ylabel='Age', title='Age Distribution by Pclass and Adult Male')
+
+
+sns.violinplot(data=titanic, x=titanic["pclass"], y=titanic["age"], hue='survived', palette=['cornflowerblue', 'indianred'], ax=axs[1])
+axs[1].set(xlabel='Class', ylabel='Age', title='Age Distribution by Pclass and Survival Status')
+
+
+axs[0].set(xlabel='')
+axs[1].set(ylabel='')
+
+sns.despine()
+
+plt.subplots_adjust(hspace=0.4)
+
+plt.show()
+
+
+
 
 # %%
 # Question 2
@@ -47,7 +84,9 @@ titanic = rfit.dfapi('Titanic','id')
 # build a logistic regression model for survival. Include the features that you find plausible. 
 # Make sure categorical variables are use properly. If the coefficient(s) turns out insignificant, drop it and re-build.
 # 
-# 
+import statsmodels as sm
+
+
 
 #%% 
 # Question 3
