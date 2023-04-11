@@ -36,45 +36,45 @@ titanic = rfit.dfapi('Titanic','id')
 print(titanic.head())
 # then perform some summary statistics. 
 # a)	Histogram on age. Maybe a stacked histogram on age with male-female as two series if possible
-# sns.histplot(data=titanic, stat="count", multiple="stack", x="age", kde=False, palette="pastel", hue="sex",element="bars", legend=True, bins=50)
-# plt.title("Stacked Histogram of age by gender")
-# plt.show()
+sns.histplot(data=titanic, stat="count", multiple="stack", x="age", kde=False, palette="pastel", hue="sex",element="bars", legend=True, bins=50)
+plt.title("Stacked Histogram of age by gender")
+plt.show()
 
 
-# # b)	proportion summary of male-female, survived-dead
-# sex_counts = titanic['sex'].value_counts()
-# plt.pie(sex_counts, labels=sex_counts.index, autopct='%1.1f%%', startangle=90)
-# plt.title('Proportional Summary of Sex on Titanic')
-# plt.show()
+# b)	proportion summary of male-female, survived-dead
+sex_counts = titanic['sex'].value_counts()
+plt.pie(sex_counts, labels=sex_counts.index, autopct='%1.1f%%', startangle=90)
+plt.title('Proportional Summary of Sex on Titanic')
+plt.show()
 
 
-# # c)	pie chart for “Ticket class”
-# pclass_counts = titanic['pclass'].value_counts()
-# plt.pie(pclass_counts, labels=pclass_counts.index, autopct='%1.1f%%', startangle=90)
-# plt.title('Pie chart of Ticket Class on Titanic')
-# plt.show()
+# c)	pie chart for “Ticket class”
+pclass_counts = titanic['pclass'].value_counts()
+plt.pie(pclass_counts, labels=pclass_counts.index, autopct='%1.1f%%', startangle=90)
+plt.title('Pie chart of Ticket Class on Titanic')
+plt.show()
 
-# # d)	A single visualization chart that shows info of survival, age, pclass, and sex.
+# d)	A single visualization chart that shows info of survival, age, pclass, and sex.
 
-# fig, axs = plt.subplots(nrows=2, figsize=(8, 10))
-
-
-# sns.violinplot(data=titanic, x=titanic["pclass"], y=titanic["age"], hue='sex', palette=['cornflowerblue', 'indianred'], ax=axs[0])
-# axs[0].set(xlabel='', ylabel='Age', title='Age Distribution by Pclass and Adult Male')
+fig, axs = plt.subplots(nrows=2, figsize=(8, 10))
 
 
-# sns.violinplot(data=titanic, x=titanic["pclass"], y=titanic["age"], hue='survived', palette=['cornflowerblue', 'indianred'], ax=axs[1])
-# axs[1].set(xlabel='Class', ylabel='Age', title='Age Distribution by Pclass and Survival Status')
+sns.violinplot(data=titanic, x=titanic["pclass"], y=titanic["age"], hue='sex', palette=['cornflowerblue', 'indianred'], ax=axs[0])
+axs[0].set(xlabel='', ylabel='Age', title='Age Distribution by Pclass and Adult Male')
 
 
-# axs[0].set(xlabel='')
-# axs[1].set(ylabel='')
+sns.violinplot(data=titanic, x=titanic["pclass"], y=titanic["age"], hue='survived', palette=['cornflowerblue', 'indianred'], ax=axs[1])
+axs[1].set(xlabel='Class', ylabel='Age', title='Age Distribution by Pclass and Survival Status')
 
-# sns.despine()
 
-# plt.subplots_adjust(hspace=0.4)
+axs[0].set(xlabel='')
+axs[1].set(ylabel='')
 
-# plt.show()
+sns.despine()
+
+plt.subplots_adjust(hspace=0.4)
+
+plt.show()
 
 
 
@@ -185,15 +185,14 @@ for col in columns:
 
 # titanic.head()
 #%%
-#Splitting the data into training and testing sets
-column_name = 'ticket'  # 
-search_string = 'STON/O 2. 3101293'
-result = titanic[titanic[column_name].str.contains(search_string, na=False)]
 
-#Display the resulting DataFrame
-print(result)
+# column_name = 'ticket'  # 
+# search_string = 'STON/O 2. 3101293'
+# result = titanic[titanic[column_name].str.contains(search_string, na=False)]
 
-print(titanic.head())
+# print(result)
+
+# print(titanic.head())
 
 
 
@@ -224,6 +223,38 @@ print('Accuracy:', accuracy)
 # b)	The precision of the model for 0 and for 1
 # c)	The recall rate of the model for 0 and for 1
 # 
+from sklearn.metrics import accuracy_score, precision_score, recall_score
+
+# Creating an instance of LogisticRegression
+model = LogisticRegression(max_iter=500)
+
+# Splitting the dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(titanic.drop('survived', axis=1), titanic['survived'], test_size=0.33, random_state=42)
+
+# Training the model
+model.fit(X_train, y_train)
+
+# Making predictions on the testing set with different cut-off values
+for cutoff in [0.3, 0.5, 0.7]:
+    y_pred = (model.predict_proba(X_test)[:,1] >= cutoff).astype(int)
+    
+    # Evaluating the model's accuracy
+    accuracy = accuracy_score(y_test, y_pred)
+    
+    # Evaluating the model's precision for 0 and for 1
+    precision_0 = precision_score(y_test, y_pred, pos_label=0)
+    precision_1 = precision_score(y_test, y_pred, pos_label=1)
+    
+    # Evaluating the model's recall rate for 0 and for 1
+    recall_0 = recall_score(y_test, y_pred, pos_label=0)
+    recall_1 = recall_score(y_test, y_pred, pos_label=1)
+    
+    print(f'Cutoff value: {cutoff}')
+    print(f'Total accuracy of the model: {accuracy:.2f}')
+    print(f'Precision of the model for 0: {precision_0:.2f}')
+    print(f'Precision of the model for 1: {precision_1:.2f}')
+    print(f'Recall rate of the model for 0: {recall_0:.2f}')
+    print(f'Recall rate of the model for 1: {recall_1:.2f}\n')
 # 
 #%% 
 # Question 6
@@ -233,3 +264,19 @@ print('Accuracy:', accuracy)
 #
 #
 
+from sklearn.linear_model import LogisticRegressionCV
+
+# Creating an instance of LogisticRegressionCV
+model = LogisticRegressionCV(cv=10, max_iter=500)
+
+# Splitting the dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(titanic.drop('survived', axis=1), titanic['survived'], test_size=0.33, random_state=42)
+
+# Training the model
+model.fit(X_train, y_train)
+
+# Evaluating the model's 10-fold average accuracy
+accuracy = model.score(X_test, y_test)
+
+print(f'The 10-fold average accuracy of the logit model is {accuracy:.2f}.')
+# %%
